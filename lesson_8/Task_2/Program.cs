@@ -36,30 +36,33 @@ void PrintMatrix(int[,] matrix)
     }
 }
 
-void PrintNumberOfRowsWithMinSum(int[,] matrix)
+int GetNumberOfRowsWithMinSum(int[,] matrix)
 {
     int minSum = 0;
-    int rowSum = 0;
     int rowCount = 1;
-    for (int i = 0; i < matrix.GetLength(0); i++)
+    for (int k = 0; k < matrix.GetLength(1); k++) // присваиваем минимальное значение сумме элементов первой строки
     {
-        
+        minSum += matrix[0, k];
+    }
+    for (int i = 1; i < matrix.GetLength(0); i++)
+    {
+        int rowSum = 0;
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            minSum += matrix[0, j];
             rowSum += matrix[i, j];
         }
         if (rowSum < minSum)
         {
             minSum = rowSum;
-            rowCount = i++;
+            rowCount = i + 1;
         }
     }
-    Console.WriteLine(rowCount);
+    return rowCount;
 }
 
-int rowCount = 3, columnCount = 3;
+int rowCount = 5, columnCount = 5;
 int[,] table = new int[rowCount, columnCount];
 FillMatrix(table);
 PrintMatrix(table);
-PrintNumberOfRowsWithMinSum(table);
+GetNumberOfRowsWithMinSum(table);
+Console.WriteLine($"{GetNumberOfRowsWithMinSum(table)}-я строка с наименьшей суммой элементов");
