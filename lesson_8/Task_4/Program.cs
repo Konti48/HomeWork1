@@ -8,24 +8,43 @@
 
 в методе создания массива необходима проверка на повторяемость
 
-
 */
-void FillMatrix(int[,] matrix)
+
+void FillRandomNotRepeat(int[,] matrix)
 {
     Random rnd = new Random();
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            matrix[i, j] = rnd.Next(0, 10);
+            int rndNumber = rnd.Next(10, 100);
+
+            while (MatrixCheck(matrix, rndNumber))
+            {
+                rndNumber = rnd.Next(10, 100);
+            }
+
+            matrix[i, j] = rndNumber;
+
         }
     }
+
 }
 
-void ChekRepeat(int q)
+bool MatrixCheck(int[,] matrix, int rndNumber)
 {
-    for (int i = 0; i < matrix.GetLength(0); i++) ;
+    for (int i = 0; i < matrix.GetLength(0); i++)
+    {
+        for (int j = 0; j < matrix.GetLength(1); j++)
+        {
+            if (matrix[i, j] == rndNumber)
+                return true;
+        }
+    }
+
+    return false;
 }
+
 
 void PrintMatrix(int[,] matrix)
 {
@@ -38,3 +57,16 @@ void PrintMatrix(int[,] matrix)
         Console.WriteLine();
     }
 }
+
+Console.WriteLine("Введите количество строк таблицы");
+int rowCount = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов таблицы");
+int columnCount = Convert.ToInt32(Console.ReadLine());
+if (rowCount * columnCount <= 90)
+{
+    int[,] table = new int[rowCount, columnCount];
+    FillRandomNotRepeat(table);
+    PrintMatrix(table);
+}
+else Console.WriteLine("Недостежимый массив, введите меньшие значения количества строк или столбцов");
+
